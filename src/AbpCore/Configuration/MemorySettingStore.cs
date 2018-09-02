@@ -21,7 +21,7 @@ namespace AbpCore.Configuration
 
         public Task<SettingInfo> GetSettingOrNullAsync(int? tenantId, long? userId, string name)
         {
-            var settings = _allSettings[name];
+            _allSettings.TryGetValue(name, out var settings);
 
             if (settings == null)
             {
@@ -53,8 +53,8 @@ namespace AbpCore.Configuration
 
         public Task CreateAsync(SettingInfo setting)
         {
-            var existsSettings = _allSettings[setting.Name];
-            if (existsSettings.Any())
+            _allSettings.TryGetValue(setting.Name, out var existsSettings);
+            if (existsSettings != null)
             {
                 _allSettings[setting.Name].Add(setting);
             }

@@ -25,7 +25,17 @@ namespace AbpCore.Configuration
                 throw new Exception("There is no setting defined for name: " + name);
             }
 
-            return Task.FromResult(SettingStore.GetSettingOrNullAsync(tenantId, userId, name).Result.Value);
+            var result = SettingStore.GetSettingOrNullAsync(tenantId, userId, name);
+
+            var strVal = result.Result?.Value;
+
+            if (result.Result == null)
+            {
+                strVal = settingDefinition.DefaultValue;
+                SettingStore.CreateAsync(new SettingInfo(tenantId,userId,name,strVal));
+            }
+
+            return Task.FromResult(strVal);
 
 
         }

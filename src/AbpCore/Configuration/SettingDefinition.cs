@@ -35,12 +35,7 @@ namespace AbpCore.Configuration
         public SettingScopes Scopes { get; set; }
 
 
-        /// <summary>
-        /// Can be used to store a custom object related to this setting.
-        /// </summary>
-        public object CustomData { get; set; }
-
-        public SettingDefinition(string name, string defaultValue, string displayName, string description, SettingScopes scopes, object customData)
+        public SettingDefinition(string name, string defaultValue, string displayName, string description, SettingScopes scopes)
         {
             if (string.IsNullOrEmpty(name))
             {
@@ -52,11 +47,10 @@ namespace AbpCore.Configuration
             DisplayName = displayName;
             Description = description;
             Scopes = scopes;
-            CustomData = customData;
         }
 
         public SettingDefinition(string name, string defaultValue)
-            : this(name, defaultValue, null, null, SettingScopes.Application, null)
+            : this(name, defaultValue, null, null, SettingScopes.Application)
         {
 
         }
